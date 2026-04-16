@@ -23,6 +23,7 @@ Thumbs.db
 .claude/
 .kilocode/
 .opencode/
+opencode.json
 
 # Project specific
 logs/
