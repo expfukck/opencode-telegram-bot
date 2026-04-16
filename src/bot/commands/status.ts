@@ -5,7 +5,6 @@ import { getCurrentProject, isTtsEnabled } from "../../settings/manager.js";
 import { fetchCurrentAgent } from "../../agent/manager.js";
 import { getAgentDisplayName } from "../../agent/types.js";
 import { fetchCurrentModel } from "../../model/manager.js";
-import { processManager } from "../../process/manager.js";
 import { keyboardManager } from "../../keyboard/manager.js";
 import { pinnedMessageManager } from "../../pinned/manager.js";
 import { logger } from "../../utils/logger.js";
@@ -29,17 +28,6 @@ export async function statusCommand(ctx: CommandContext<Context>) {
     message += `${t("status.line.tts", {
       tts: isTtsEnabled() ? t("status.tts.on") : t("status.tts.off"),
     })}\n`;
-
-    // Add process management information
-    if (processManager.isRunning()) {
-      const uptime = processManager.getUptime();
-      const uptimeStr = uptime ? Math.floor(uptime / 1000) : 0;
-      message += `${t("status.line.managed_yes")}\n`;
-      message += `${t("status.line.pid", { pid: processManager.getPID() ?? "-" })}\n`;
-      message += `${t("status.line.uptime_sec", { seconds: uptimeStr })}\n`;
-    } else {
-      message += `${t("status.line.managed_no")}\n`;
-    }
 
     // Add agent information
     const currentAgent = await fetchCurrentAgent();

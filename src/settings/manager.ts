@@ -16,11 +16,6 @@ export interface SessionInfo {
   directory: string;
 }
 
-export interface ServerProcessInfo {
-  pid: number;
-  startTime: string; // ISO string
-}
-
 export interface SessionDirectoryCacheInfo {
   version: 1;
   lastSyncedUpdatedAt: number;
@@ -37,7 +32,6 @@ export interface Settings {
   currentModel?: ModelInfo;
   pinnedMessageId?: number;
   ttsEnabled?: boolean;
-  serverProcess?: ServerProcessInfo;
   sessionDirectoryCache?: SessionDirectoryCacheInfo;
   scheduledTasks?: ScheduledTask[];
 }
@@ -165,20 +159,6 @@ export function clearPinnedMessageId(): void {
   void writeSettingsFile(currentSettings);
 }
 
-export function getServerProcess(): ServerProcessInfo | undefined {
-  return currentSettings.serverProcess;
-}
-
-export function setServerProcess(processInfo: ServerProcessInfo): void {
-  currentSettings.serverProcess = processInfo;
-  void writeSettingsFile(currentSettings);
-}
-
-export function clearServerProcess(): void {
-  currentSettings.serverProcess = undefined;
-  void writeSettingsFile(currentSettings);
-}
-
 export function getSessionDirectoryCache(): SessionDirectoryCacheInfo | undefined {
   return currentSettings.sessionDirectoryCache;
 }
@@ -209,14 +189,26 @@ export function __resetSettingsForTests(): void {
 
 export async function loadSettings(): Promise<void> {
   const loadedSettings = (await readSettingsFile()) as Settings & {
+    serverProcess?: unknown;
     toolMessagesIntervalSec?: unknown;
   };
 
+  let requiresRewrite = false;
+
   if ("toolMessagesIntervalSec" in loadedSettings) {
     delete loadedSettings.toolMessagesIntervalSec;
-    void writeSettingsFile(loadedSettings);
+    requiresRewrite = true;
+  }
+
+  if ("serverProcess" in loadedSettings) {
+    delete loadedSettings.serverProcess;
+    requiresRewrite = true;
   }
 
   currentSettings = loadedSettings;
   currentSettings.scheduledTasks = cloneScheduledTasks(loadedSettings.scheduledTasks) ?? [];
+
+  if (requiresRewrite) {
+    void writeSettingsFile(currentSettings);
+  }
 }

@@ -44,15 +44,6 @@ interface PinnedMessageManagerPrivateState {
   };
 }
 
-interface ProcessManagerPrivateState {
-  state: {
-    process: null;
-    pid: null;
-    startTime: null;
-    isRunning: boolean;
-  };
-}
-
 export async function resetSingletonState(): Promise<void> {
   const [
     { questionManager },
@@ -62,7 +53,6 @@ export async function resetSingletonState(): Promise<void> {
     { summaryAggregator },
     { keyboardManager },
     { pinnedMessageManager },
-    { processManager },
     { stopEventListening },
     { __resetSessionDirectoryCacheForTests },
     loggerModule,
@@ -74,7 +64,6 @@ export async function resetSingletonState(): Promise<void> {
     import("../../src/summary/aggregator.js"),
     import("../../src/keyboard/manager.js"),
     import("../../src/pinned/manager.js"),
-    import("../../src/process/manager.js"),
     import("../../src/opencode/events.js"),
     import("../../src/session/cache-manager.js"),
     import("../../src/utils/logger.js"),
@@ -131,14 +120,6 @@ export async function resetSingletonState(): Promise<void> {
     tokensLimit: 0,
     lastUpdated: 0,
     changedFiles: [],
-  };
-
-  const process = processManager as unknown as ProcessManagerPrivateState;
-  process.state = {
-    process: null,
-    pid: null,
-    startTime: null,
-    isRunning: false,
   };
 
   __resetSessionDirectoryCacheForTests();

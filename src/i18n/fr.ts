@@ -181,6 +181,10 @@ export const fr: I18nDictionary = {
     "⚠️ Le serveur OpenCode est déjà en cours d'exécution\n\nPID : {pid}\nTemps de fonctionnement : {seconds} secondes",
   "opencode_start.already_running_external":
     "✅ Le serveur OpenCode est déjà en cours d'exécution en tant que processus externe\n\nVersion : {version}\n\nCe serveur n'a pas été démarré par le bot, donc /opencode-stop ne peut pas l'arrêter.",
+  "opencode_start.already_running":
+    "✅ Le serveur OpenCode est déjà en cours d'exécution\n\nVersion : {version}",
+  "opencode_start.remote_configured":
+    "⚠️ /opencode_start fonctionne uniquement avec un serveur OpenCode local.",
   "opencode_start.starting": "🔄 Démarrage du serveur OpenCode...",
   "opencode_start.start_error":
     "🔴 Impossible de démarrer le serveur OpenCode\n\nErreur : {error}\n\nVérifiez que l'interface en ligne de commande OpenCode est installée et disponible dans le PATH :\nopencode --version\nnpm install -g @opencode-ai/cli",
@@ -192,9 +196,14 @@ export const fr: I18nDictionary = {
     "🔴 Une erreur s'est produite lors du démarrage du serveur.\n\nConsultez les logs de l'application pour plus de détails.",
   "opencode_stop.external_running":
     "⚠️ Le serveur OpenCode s'exécute comme processus externe\n\nCe serveur n'a pas été démarré via /opencode-start.\nArrêtez-le manuellement ou utilisez /status pour vérifier son état.",
+  "opencode_stop.remote_configured":
+    "⚠️ /opencode_stop fonctionne uniquement avec un serveur OpenCode local.",
   "opencode_stop.not_running": "⚠️ Le serveur OpenCode n'est pas en cours d'exécution",
+  "opencode_stop.pid_not_found":
+    "⚠️ Le serveur OpenCode répond sur le port {port}, mais aucun processus local à arrêter n'a été trouvé.",
   "opencode_stop.stopping": "🛑 Arrêt du serveur OpenCode...\n\nPID : {pid}",
   "opencode_stop.stop_error": "🔴 Impossible d'arrêter le serveur OpenCode\n\nErreur : {error}",
+  "opencode_stop.still_running": "Le serveur répond toujours après la demande d'arrêt.",
   "opencode_stop.success": "✅ Serveur OpenCode arrêté avec succès",
   "opencode_stop.error":
     "🔴 Une erreur s'est produite lors de l'arrêt du serveur.\n\nConsultez les logs de l'application pour plus de détails.",

@@ -4,7 +4,6 @@ import { readFile } from "node:fs/promises";
 import { cleanupBotRuntime, createBot } from "../bot/index.js";
 import { config } from "../config.js";
 import { loadSettings } from "../settings/manager.js";
-import { processManager } from "../process/manager.js";
 import { scheduledTaskRuntime } from "../scheduled-task/runtime.js";
 import { warmupSessionDirectoryCache } from "../session/cache-manager.js";
 import { reconcileStoredModelSelection } from "../model/manager.js";
@@ -46,7 +45,6 @@ export async function startBotApp(): Promise<void> {
   logger.debug(`[Runtime] Application start mode: ${mode}`);
 
   await loadSettings();
-  await processManager.initialize();
   await reconcileStoredModelSelection();
   await warmupSessionDirectoryCache();
 

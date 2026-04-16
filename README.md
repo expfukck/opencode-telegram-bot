@@ -60,13 +60,15 @@ You'll also need your **Telegram User ID** — send any message to [@userinfobot
 
 ### 2. Start OpenCode Server
 
-Start the OpenCode server:
+Run the OpenCode server on the same machine where the bot runs:
 
 ```bash
 opencode serve
 ```
 
-> The bot connects to the OpenCode API at `http://localhost:4096` by default.
+> The bot connects to the local OpenCode API at `http://localhost:4096` by default.
+
+> After the bot is configured, you can also start and stop the local OpenCode server from Telegram with `/opencode_start` and `/opencode_stop`.
 
 ### 3. Install & Run
 
@@ -132,13 +134,11 @@ opencode-telegram config
 | `/commands`       | Browse and run custom commands                          |
 | `/task`           | Create a scheduled task                                 |
 | `/tasklist`       | Browse and delete scheduled tasks                       |
-| `/opencode_start` | Start the OpenCode server remotely                      |
-| `/opencode_stop`  | Stop the OpenCode server remotely                       |
+| `/opencode_start` | Start the local OpenCode server on the bot machine      |
+| `/opencode_stop`  | Stop the local OpenCode server on the bot machine       |
 | `/help`           | Show available commands                                 |
 
 Any regular text message is sent as a prompt to the coding agent only when no blocking interaction is active. Voice/audio messages are transcribed and then sent as prompts when STT is configured.
-
-> `/opencode_start` and `/opencode_stop` are intended as emergency commands — for example, if you need to restart a stuck server while away from your computer. Under normal usage, start `opencode serve` yourself before launching the bot.
 
 ## Scheduled Tasks
 
@@ -298,8 +298,9 @@ npm run dev
 
 **"OpenCode server is not available"**
 
-- Ensure `opencode serve` is running in your project directory
-- Check that `OPENCODE_API_URL` points to the correct address (default: `http://localhost:4096`)
+- Ensure an OpenCode server is running at the configured `OPENCODE_API_URL` (default: `http://localhost:4096`)
+- For a local setup, you can start it with `opencode serve` or use `/opencode_start` in Telegram
+- If `OPENCODE_API_URL` points to a remote server, verify that the address is reachable from the bot machine and that the remote server is healthy
 
 **No models in model picker**
 
