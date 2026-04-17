@@ -226,8 +226,17 @@ export async function handleVoiceMessage(ctx: Context, deps: VoiceMessageDeps): 
 
     logger.info(`[Voice] Transcribed audio: ${recognizedText.length} chars`);
 
+    let textForLLM = recognizedText;
+    const notePrompt = config.stt.notePrompt.trim();
+
+    if (notePrompt && notePrompt.toLowerCase() !== "false" && notePrompt !== "0") {
+      const llmNote = `[Note: ${notePrompt}]`;
+      logger.debug(`[Voice] Added STT note to LLM prompt: ${llmNote}`);
+      textForLLM = `${llmNote}\n${recognizedText}`;
+    }
+
     // Process the recognized text as a prompt
-    await processPrompt(ctx, recognizedText, deps);
+    await processPrompt(ctx, textForLLM, deps);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : "unknown error";
     logger.error("[Voice] Error processing voice message:", err);
